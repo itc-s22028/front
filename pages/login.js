@@ -1,44 +1,66 @@
-const fetchData = async () => {
-    try {
-        const response = await fetch('http://localhost:3002/users/login');
-        if (!response.ok) {
-            throw new Error('データの取得に失敗しました');
+import React, { useState } from 'react';
+
+const LoginPage = () => {
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+
+    const handleLogin = async (e) => {
+        e.preventDefault();
+
+
+        try {
+            const response = await fetch('http://localhost:3002/users/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+                mode: 'cors',
+                body: JSON.stringify({ name, password }),
+            });
+
+            if (!response.ok) {
+                throw new Error('ログインに失敗しました');
+            }
+
+            // ログイン成功時の処理
+            const data = await response.json();
+            console.log('ログイン成功', data);
+
+            // ここで適切なページへのリダイレクトや状態の更新を行う
+
+        } catch (error) {
+            console.error('ログインエラー:', error);
+            // ログイン失敗時の処理をここに追加
         }
+    };
 
-        return await response.json();
-    } catch (error) {
-        console.error('データの取得エラー:', error);
-        throw error; // エラーを再スローして呼び出し元で処理できるようにする
-    }
+    return (
+        <>
+            <h2>Login Page</h2>
+            <form onSubmit={handleLogin}>
+                <label htmlFor="username">Username:</label>
+                <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                />
+
+                <label htmlFor="password">Password:</label>
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                />
+
+                <button type="submit">Login</button>
+            </form>
+        </>
+    );
 };
 
-const Login = ({ frontData }) => {
-    if (frontData) {
-        return (
-            <div>
-                <h1>{frontData.title}</h1>
-                <div className="form">
-                    <h1>{frontData.content}</h1>
-                </div>
-            </div>
-        );
-    } else {
-        return <h1>データがありません</h1>;
-    }
-};
-
-export async function getServerSideProps() {
-    try {
-        const frontData = await fetchData();
-        return {
-            props: { frontData },
-        };
-    } catch (error) {
-        console.error('エラーが発生しました:', error);
-        return {
-            props: { frontData: null }, // データが取得できなかった場合、nullを返すなどの適切な処理を行う
-        };
-    }
-}
-
-export default Login;
+export default LoginPage;
