@@ -27,6 +27,7 @@ const LoginPage = () => {
             const data = await response.json();
             console.log('ログイン成功', data);
 
+
             // ここで適切なページへのリダイレクトや状態の更新を行う
 
         } catch (error) {
