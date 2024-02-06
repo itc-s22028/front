@@ -13,10 +13,12 @@ const fetchData = async () => {
 };
 
 const Home = ({ frontData }) => {
-  if (frontData) {
+  if (frontData && frontData.messages && frontData.messages.length > 0) {
     return (
         <div>
-          <h1>{frontData.a}</h1>
+          {frontData.messages.map((message) => (
+              <h1 key={message.id}>{message.text}</h1>
+          ))}
         </div>
     );
   } else {
@@ -24,16 +26,23 @@ const Home = ({ frontData }) => {
   }
 };
 
+
 export async function getServerSideProps() {
   try {
-    const frontData = await fetchData();
+    const response = await fetch('http://localhost:3002');
+    if (!response.ok) {
+      throw new Error('データの取得に失敗しました');
+    }
+
+    const frontData = await response.json();
+
     return {
       props: { frontData },
     };
   } catch (error) {
     console.error('エラーが発生しました:', error);
     return {
-      props: { frontData: null }, // データが取得できなかった場合、nullを返すなどの適切な処理を行う
+      props: { frontData: null },
     };
   }
 }

@@ -1,45 +1,33 @@
 import React, { useState } from 'react';
+import { useRouter } from 'next/router';
+import axios from 'axios';
 
 const LoginPage = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const router = useRouter();
 
-    const handleLogin = async (e) => {
+    const handleLoginAxios = async (e) => {
         e.preventDefault();
 
+        const data = {
+            username: username,
+            password: password,
+        };
 
         try {
-            const response = await fetch('http://localhost:3002/users/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                credentials: 'include',
-                mode: 'cors',
-                body: JSON.stringify({ name, password }),
-            });
-
-            if (!response.ok) {
-                throw new Error('ログインに失敗しました');
-            }
-
-            // ログイン成功時の処理
-            const data = await response.json();
-            console.log('ログイン成功', data);
-
-
-            // ここで適切なページへのリダイレクトや状態の更新を行う
-
+            const response = await axios.post('http://localhost:3002/users/login', data, { withCredentials: true });
+            console.log(response.data);
+            // router.push('/');
         } catch (error) {
-            console.error('ログインエラー:', error);
-            // ログイン失敗時の処理をここに追加
+            //error
         }
     };
 
     return (
         <>
             <h2>Login Page</h2>
-            <form onSubmit={handleLogin}>
+            <form onSubmit={handleLoginAxios}>
                 <label htmlFor="username">Username:</label>
                 <input
                     type="text"
