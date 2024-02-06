@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import styles from '../styles/board.module.css';
 
 const Boards = ({ messageData }) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -16,6 +17,18 @@ const Boards = ({ messageData }) => {
             setIsLoggedIn(true);
         }
     }, []);
+
+    const formatDateTime = (datetimeString) => {
+        return new Intl.DateTimeFormat('ja-JP', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            // hour: '2-digit',
+            // minute: '2-digit',
+            timeZone: 'Asia/Tokyo'
+        }).format(new Date(datetimeString));
+    };
+
 
     const fetchBoardData = async () => {
         try {
@@ -39,16 +52,25 @@ const Boards = ({ messageData }) => {
         <div>
             {isLoggedIn && (
                 <div>
-                    <h1>Boards</h1>
+                    <h1>メッセージ一覧</h1>
                     <div>
                         <div>
                             {boardData && boardData.length > 0 ? (
                                 <ul>
                                     {boardData.map((message, index) => (
-                                        <li key={index}>
-                                            {message.account.name}
+                                        <li key={index} className={styles.boardli}>
+                                            <div className={styles.userdates}>
+                                                <h1 className={styles.userName}>{message.account.name}</h1>
+                                                <p　style={{ opacity: 0.5 }}>accountId : {message.accountId}</p>
+                                            </div>
+                                            <div className={styles.content}>
+                                                <p style={{borderRight: '1px solid black'}}>メッセージ作成日時: {formatDateTime(message.createdAt)}</p>
+                                                <p style={{borderRight: '1px solid black'}}>メッセージ更新日時: {formatDateTime(message.updatedAt)}</p>
+                                                <p style={{borderRight: '1px solid black'}}>アカウント作成日時: {formatDateTime(message.account.createdAt)}</p>
+                                                <p>アカウント更新日時: {formatDateTime(message.account.updatedAt)}</p>
+                                            </div>
+                                            <p className={styles.text}>{message.text}</p>
                                         </li>
-
                                     ))}
                                 </ul>
                             ) : (

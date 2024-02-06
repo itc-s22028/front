@@ -1,0 +1,48 @@
+.boardli {
+    list-style: none;
+    border: 1px solid black;
+    margin: 20px 0;
+    background-color: #fffff2;
+}
+
+.userdates {
+    display: flex;
+    border-bottom: 1px solid black;
+}
+
+.userdates p {
+    margin-left: 10px;
+}
+
+.userName {
+    font-size: 40px;
+    margin: 0 0 0 10px;
+    padding-right: 20px;
+    border-right: 1px solid black;
+}
+
+.userName p {
+    font-size: 10px;
+}
+
+.content {
+    margin: 0;
+    display: flex;
+    border-bottom: 1px solid black;
+}
+
+.content p {
+    margin: auto;
+    padding: 0 10px;
+    font-size: 15px;
+}
+
+.text {
+    font-weight: bold;
+    font-size: 40px;
+    margin: 0;
+    padding: 30px 10px;
+    border-bottom: 1px solid black;
+}
+
+
