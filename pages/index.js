@@ -1,6 +1,6 @@
 const fetchData = async () => {
   try {
-    const response = await fetch('http://localhost:3002');
+    const response = await fetch('http://localhost:3030');
     if (!response.ok) {
       throw new Error('データの取得に失敗しました');
     }
@@ -29,7 +29,7 @@ const Home = ({ frontData }) => {
 
 export async function getServerSideProps() {
   try {
-    const response = await fetch('http://localhost:3002');
+    const response = await fetch('http://localhost:3030');
     if (!response.ok) {
       throw new Error('データの取得に失敗しました');
     }

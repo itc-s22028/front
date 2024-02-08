@@ -32,7 +32,7 @@ const Boards = ({ messageData }) => {
 
     const fetchBoardData = async () => {
         try {
-            const response = await fetch('http://localhost:3002/board', {
+            const response = await fetch('http://localhost:3030/board', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

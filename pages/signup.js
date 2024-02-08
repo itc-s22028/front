@@ -16,7 +16,7 @@ const Home = ({ frontData }) => {
 
     const sendData = async () => {
         try {
-            const response = await fetch('http://localhost:3002/users/signup', {
+            const response = await fetch('http://localhost:3030/users/signup', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -54,7 +54,7 @@ const Home = ({ frontData }) => {
 
 export async function getStaticProps() {
     try {
-        const response = await fetch('http://localhost:3002/users/signup');
+        const response = await fetch('http://localhost:3030/users/signup');
         const frontData = await response.json();
 
         return {
